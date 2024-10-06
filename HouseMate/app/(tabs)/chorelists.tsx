@@ -10,16 +10,11 @@ import {
 import { ThemedText } from "@/components/ThemedText";
 import { MaterialIcons } from '@expo/vector-icons';
 import CreateChore from './createChore'; // Make sure the path is correct
-
-
-import { useChore } from "../../context/choreContext"
+import { useChore } from "../../context/choreContext";
 import { doc, getDocs, collection, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 import { useUser } from "../../context/userContext"; 
-import { signInWithEmailAndPassword, User } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
 import { useFocusEffect } from "@react-navigation/native";
-
 
 interface ChoreData {
   choreID: string; 
@@ -31,92 +26,11 @@ interface ChoreData {
 }
 
 export default function Chorelists() {
-
-  const {
-    choreID, 
-    name, 
-    frequency, 
-    person, 
-    recurring,
-    status
-} = useChore(); 
-
-const { houseID, username, addChore } = useUser();
-const [chores, setChores] = useState<ChoreData[]>([]);
-
-useEffect(() => {
-    fetchChoreData();
-  }, []);
-
-
-  // const mockChores: ChoreData[] = [
-  //   {
-  //     choreID: "1",
-  //     name: "Dishes",
-  //     frequency: "Daily",
-  //     person: "John Doe",
-  //     recurring: true,
-  //     status: "Incomplete",
-  //   },
-  //   {
-  //     choreID: "2",
-  //     name: "Vacuum Living Room",
-  //     frequency: "Weekly",
-  //     person: "Alex Johnson",
-  //     recurring: true,
-  //     status: "Complete",
-  //   },
-  //   {
-  //     choreID: "3",
-  //     name: "Take out trash",
-  //     frequency: "Every 3 days",
-  //     person: "Alex Johnson",
-  //     recurring: true,
-  //     status: "Incomplete",
-  //   },
-  //   {
-  //     choreID: "4",
-  //     name: "Mow Lawn",
-  //     frequency: "Bi-weekly",
-  //     person: "",
-  //     recurring: false,
-  //     status: "Unclaimed",
-  //   },
-  //   {
-  //     choreID: "5",
-  //     name: "Clean Bathroom",
-  //     frequency: "Weekly",
-  //     person: "Jane Smith",
-  //     recurring: true,
-  //     status: "Complete",
-  //   },
-  //   {
-  //     choreID: "6",
-  //     name: "Give the Dog a Bath",
-  //     frequency: "Every 3 days",
-  //     person: "Jane Smith",
-  //     recurring: true,
-  //     status: "Incomplete",
-  //   },
-  //   {
-  //     choreID: "7",
-  //     name: "Clean Fish Tank",
-  //     frequency: "Weekly",
-  //     person: "Jane Smith",
-  //     recurring: true,
-  //     status: "Complete",
-  //   },
-  // ];
-
-  // const [chores, setChores] = useState<ChoreData[]>([]);
+  const { houseID, username, addChore } = useUser();
+  const [chores, setChores] = useState<ChoreData[]>([]);
   const [isModalVisible, setModalVisible] = useState(false); // State for modal visibility
 
-  useEffect(() => {
-    const sortedChores = sortChoresByStatus(chores);
-    setChores(sortedChores);
-  }, []);
-
-
+  // Function to fetch chore data
   const fetchChoreData = async () => {
     try {
       const data = await getDocs(collection(db, `households/${houseID}/chores`));
@@ -125,7 +39,7 @@ useEffect(() => {
       data.forEach((doc) => {
         const currData = doc.data();
         const currUser = {
-         choreID: currData.choreID as string,
+          choreID: currData.choreID as string,
           name: currData.name as string,
           frequency: currData.frequency as string, 
           person: currData.person as string,
@@ -143,12 +57,12 @@ useEffect(() => {
     }
   };
 
-
-
-
-
-
-
+  // Call fetchChoreData when the component is focused
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchChoreData();
+    }, [])
+  );
 
   const sortChoresByStatus = (chores: ChoreData[]) => {
     return chores.sort((a, b) => {
@@ -185,27 +99,19 @@ useEffect(() => {
 
   const handleRegister = async (choreID: string) => {
     try {
-      // Step 1: Fetch the specific chore document using the choreID
       const choreDocRef = doc(db, `households/${houseID}/chores`, choreID);
       const choreDoc = await getDoc(choreDocRef);
   
       if (choreDoc.exists()) {
-        const choreData = choreDoc.data();
-        
-        // Step 2: Update the frequency of the chore
         await updateDoc(choreDocRef, {
-          status: "Incomplete", // Change this to the new frequency you want
+          status: "Incomplete",
           person: username, 
         });
 
-         // Get the addChore function from context
         addChore(choreID);
-
-  
         console.log(`Chore with ID ${choreID} updated successfully.`);
-        
-        // Step 3: Update the state (optional: re-fetch chore data or update locally)
-        fetchChoreData(); // Call fetch function again to refresh the list (or manually update state)
+  
+        fetchChoreData(); // Re-fetch chore data after registration
   
       } else {
         console.log("No such chore found!");
@@ -215,7 +121,6 @@ useEffect(() => {
     }
   };
   
-
   const openModal = () => {
     setModalVisible(true);
   };
@@ -370,31 +275,31 @@ const styles = StyleSheet.create({
   },
   registerButton: {
     backgroundColor: "#820B66", 
-    paddingVertical: 5,  
-    paddingHorizontal: 10, 
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     borderRadius: 5,
   },
   registerButtonText: {
-    color: "#FFFFFF", 
-    fontSize: 14, 
-    textAlign: "center",
+    color: "#fff", 
+    fontWeight: "bold", 
   },
   addButton: {
-    backgroundColor: "#6200EE", // Customize your button color
-    padding: 10,
+    backgroundColor: "#4CAF50", 
+    paddingVertical: 10,
     borderRadius: 5,
-    alignSelf: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 20,
   },
   addButtonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
+    color: "#fff", 
+    fontWeight: "bold",
   },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+    backgroundColor: "rgba(0, 0, 0, 0.5)", 
   },
   modalContent: {
     width: "80%",
@@ -402,13 +307,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     alignItems: "center",
+    elevation: 5,
   },
   closeButton: {
-    alignSelf: "flex-end",
+    alignSelf: "flex-end", 
+    padding: 10,
   },
   closeButtonText: {
+    fontWeight: "bold",
     fontSize: 18,
-    color: "#6200EE", // Customize your close button color
   },
 });
-
