@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Image, SafeAreaView, Text, View, TouchableOpacity } from 'react-native';
+import {React, useState} from 'react';
+import { StyleSheet, Image, SafeAreaView, Text, View, TouchableOpacity, FlatList } from 'react-native';
 import { useHouse } from "../../context/householdContext";
 import LottieView from "lottie-react-native";
 
