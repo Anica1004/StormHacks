@@ -10,7 +10,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useUser } from "../../context/userContext";
 import { useChore } from "../../context/choreContext";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { useFocusEffect } from "@react-navigation/native"; // Import useFocusEffect
 
@@ -89,12 +89,27 @@ export default function MyChores() {
     }
   };
 
-  const handleComplete = (choreID: string) => {
-    const updatedChores = chores.map((chore) =>
-      chore.choreID === choreID ? { ...chore, status: "Complete" } : chore
-    );
-    setChores(updatedChores);
+  const handleComplete = async (choreID: string) => {
+    try {
+      // Find the document reference for the chore in Firestore
+      const choreDocRef = doc(db, `households/${houseID}/chores/${choreID}`);
+      
+      // Update the chore status to 'Complete' in Firestore
+      await updateDoc(choreDocRef, {
+        status: "Complete",
+      });
+  
+      // Update the local state only after Firestore is updated
+      const updatedChores = chores.map((chore) =>
+        chore.choreID === choreID ? { ...chore, status: "Complete" } : chore
+      );
+      setChores(updatedChores);
+    } catch (error) {
+      console.error("Error updating chore status:", error);
+    }
   };
+
+
 
   const handleRegister = (choreID: string) => {
     console.log(`Registering for chore ID: ${choreID}`);
