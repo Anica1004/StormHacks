@@ -67,7 +67,7 @@ export default function Chorelists() {
   const sortChoresByStatus = (chores: ChoreData[]) => {
     return chores.sort((a, b) => {
       const statusOrder = { "Unclaimed": 1, "Incomplete": 2, "Complete": 3 };
-      return statusOrder[a.status] - statusOrder[b.status];
+      return (statusOrder[a.status] || 0) - (statusOrder[b.status] || 0);
     });
   };
 
@@ -129,14 +129,17 @@ export default function Chorelists() {
     setModalVisible(false);
   };
 
+  // Sort chores before rendering
+  const sortedChores = sortChoresByStatus(chores);
+
   return (
     <View style={styles.outerContainer}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <ThemedText style={styles.title}>Chores of the Week</ThemedText>
 
         <View style={styles.container}>
-          {chores.length > 0 ? (
-            chores.map((chore) => {
+          {sortedChores.length > 0 ? (
+            sortedChores.map((chore) => {
               const statusStyle = getStatusStyle(chore.status);
               return (
                 <View
@@ -284,37 +287,37 @@ const styles = StyleSheet.create({
     fontWeight: "bold", 
   },
   addButton: {
-    backgroundColor: "#4CAF50", 
-    paddingVertical: 10,
+    backgroundColor: "#0B83D6",
+    padding: 15,
     borderRadius: 5,
     alignItems: "center",
-    justifyContent: "center",
     marginBottom: 20,
   },
   addButtonText: {
-    color: "#fff", 
+    color: "#fff",
     fontWeight: "bold",
+    fontSize: 18,
   },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", 
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    width: "80%",
-    backgroundColor: "#fff",
+    width: "90%",
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
     alignItems: "center",
-    elevation: 5,
   },
   closeButton: {
-    alignSelf: "flex-end", 
-    padding: 10,
+    position: "absolute",
+    top: 10,
+    right: 10,
   },
   closeButtonText: {
+    fontSize: 20,
     fontWeight: "bold",
-    fontSize: 18,
   },
 });
