@@ -75,12 +75,6 @@ export default function chorelists() {
       };
     
 
-
-
-
-
-
-
 return(
 <ScrollView>
     <View>
