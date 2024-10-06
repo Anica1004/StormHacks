@@ -8,6 +8,12 @@ import {
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useUser } from "../../context/userContext";
+import { useChore } from "../../context/choreContext";
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../firebaseConfig';
+
+
 
 interface ChoreData {
   choreID: string;
@@ -19,6 +25,48 @@ interface ChoreData {
 }
 
 export default function MyChores() {
+  const { houseID, currentChores } = useUser();
+  const [chores, setChores] = useState<ChoreData[]>([]);
+  
+  useEffect(() => {
+      fetchChoreData();
+  }, []);
+
+  const fetchChoreData = async () => {
+    const chorePaths = currentChores.map((chore) => {
+        return `households/${houseID}/chores/${chore}`; // Add return statement here
+    });
+
+    try {
+        const choreData: ChoreData[] = [];
+
+        // Loop through each path and fetch the document
+        for (const path of chorePaths) {
+            const choreDoc = doc(db, path);
+            const choreSnap = await getDoc(choreDoc); // Use getDoc here
+
+            if (choreSnap.exists()) {
+                choreData.push({ choreID: choreSnap.id, ...choreSnap.data() } as ChoreData);
+            } else {
+                console.log(`No such document at ${path}`);
+            }
+        }
+
+        setChores(choreData);
+    } catch (error) {
+        console.error("Error fetching chore data:", error);
+    }
+};
+
+
+
+// for each chorepaths make it a usestate variable 
+
+
+
+
+
+
   const mockChores: ChoreData[] = [
     {
       choreID: "2",
@@ -46,10 +94,10 @@ export default function MyChores() {
     },
   ];
 
-  const [chores, setChores] = useState<ChoreData[]>([]);
+  // const [chores, setChores] = useState<ChoreData[]>([]);
 
   useEffect(() => {
-    const sortedChores = sortChoresByStatus(mockChores);
+    const sortedChores = sortChoresByStatus(chores);
     setChores(sortedChores);
   }, []);
 
