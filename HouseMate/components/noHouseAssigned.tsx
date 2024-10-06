@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Image, SafeAreaView, Text, Alert, TextInput, TouchableOpacity } from 'react-native';
+import LottieView from "lottie-react-native";
+
 
 const noHouseAssigned = ({ navigation }: any) => {
   const [inviteCode, setInviteCode] = useState('');
@@ -11,12 +13,7 @@ const noHouseAssigned = ({ navigation }: any) => {
       Alert.alert('Success', `Invite code confirmed: ${inviteCode}`);
 
       navigation.navigate("Main");
-
-
     }
-
-
-
   };
 
   // Function to handle creating a new household
@@ -27,12 +24,13 @@ const noHouseAssigned = ({ navigation }: any) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Text style={styles.title}>Hello</Text>
+      <Text style={styles.title}>Welcome!</Text>
 
-      <Image 
-        source={{ uri: "https://res.cloudinary.com/du40sblw6/image/upload/v1721157256/samples/food/dessert.jpg" }}
-        style={styles.landingImage}
-      />
+      <LottieView
+          autoPlay
+          style={styles.icon}
+          source={require("../assets/animation/houseIcon.json")}
+        />
 
       <TextInput
         style={styles.inviteCodeBox}
@@ -60,15 +58,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f2f2f2', // Soft background color
+    backgroundColor: '#fff', // Soft background color
     paddingHorizontal: 20, // Padding for the whole view
   },
   title: {
     textAlign: 'center',
     color: '#333',
     fontSize: 32,
-    fontWeight: 'bold',
     marginVertical: 20,
+    fontFamily: "Montserrat-Black"
   },
   landingImage: {
     width: 280,
@@ -93,7 +91,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingVertical: 15,
     borderRadius: 10,
-    backgroundColor: '#2196F3',
+    backgroundColor: '#67A21A',
     alignItems: 'center',
     marginBottom: 15,
     shadowColor: '#000',
@@ -105,17 +103,23 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingVertical: 15,
     borderRadius: 10,
-    backgroundColor: '#67A21A',
+    backgroundColor: '#4A9DF8',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 3,
   },
+  icon: {
+    width: 200, 
+    height: 200, 
+
+  },
   buttonText: {
     color: 'white',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: "Montserrat-Bold"
+
   },
 });
 
