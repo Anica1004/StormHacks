@@ -32,7 +32,7 @@ export default function Chorelists() {
       choreID: "2",
       name: "Vacuum Living Room",
       frequency: "Weekly",
-      person: "Jane Smith",
+      person: "Alex Johnson",
       recurring: true,
       status: "Complete",
     },
@@ -52,7 +52,32 @@ export default function Chorelists() {
       recurring: false,
       status: "Unclaimed",
     },
+    {
+      choreID: "5",
+      name: "Clean Bathroom",
+      frequency: "Weekly",
+      person: "Jane Smith",
+      recurring: true,
+      status: "Complete",
+    },
+    {
+      choreID: "6",
+      name: "Give the Dog a Bath",
+      frequency: "Every 3 days",
+      person: "Jane Smith",
+      recurring: true,
+      status: "Incomplete",
+    },
+    {
+      choreID: "7",
+      name: "Clean Fish Tank",
+      frequency: "Weekly",
+      person: "Jane Smith",
+      recurring: true,
+      status: "Complete",
+    },
   ];
+  
 
   const [chores, setChores] = useState<ChoreData[]>([]);
 
