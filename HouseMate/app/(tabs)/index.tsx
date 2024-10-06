@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { StyleSheet, SafeAreaView, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, TouchableOpacity, FlatList } from 'react-native';
 import { useHouse } from "../../context/householdContext";
 import LottieView from "lottie-react-native";
 
@@ -35,7 +35,10 @@ export default function HouseLandingPage() {
     };
 
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <ScrollView 
+            contentContainerStyle={styles.safeArea}
+            showsVerticalScrollIndicator={false} // Optional: hides the vertical scrollbar
+        >
             <Text style={styles.title}>
                 Welcome back to {housename}!
             </Text>
@@ -84,18 +87,21 @@ export default function HouseLandingPage() {
                             </Text>
                         </View>
                     )}
+                    // Optional: Set the height for FlatList if it causes layout issues
+                    style={{ flexGrow: 0 }} 
                 />
             )}
-        </SafeAreaView>
+        </ScrollView>
     ); 
 }
 
 const styles = StyleSheet.create({
     safeArea: {
-        flex: 1,
+        flexGrow: 1, // allows the content to grow as needed
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: "#f0f4f7",
+        paddingBottom: 20, // Optional: add padding at the bottom
     },
     title: {
         textAlign: 'center',
@@ -147,7 +153,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         backgroundColor: '#67A21A',
         width: '100%',
-        marginBottom: 10,
+        marginBottom: 5,
     },
     historyChore: {
         fontSize: 18,

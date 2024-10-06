@@ -3,6 +3,9 @@ import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firest
 import { db } from '../firebaseConfig';
 import { useHouse } from './householdContext';
 
+
+
+
 interface UserContextType {
   UID: string | null;
   username: string | null;
