@@ -9,10 +9,13 @@ const noHouseAssigned = ({ navigation }: any) => {
   const handleConfirmInviteCode = () => {
     if (inviteCode.trim() === '') {
       Alert.alert('Error', 'Please enter an invite code!');
-    } else {
+    } 
+    if (inviteCode.trim() === '12345') {
       Alert.alert('Success', `Invite code confirmed: ${inviteCode}`);
 
       navigation.navigate("Main");
+    }else{
+      Alert.alert('Failure', `Invalid code: ${inviteCode}`);
     }
   };
 

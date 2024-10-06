@@ -188,9 +188,7 @@ export default function Chorelists() {
           )}
         </View>
         
-        <TouchableOpacity style={styles.addButton} onPress={openModal}>
-          <Text style={styles.addButtonText}>Add Chore</Text>
-        </TouchableOpacity>
+       
       </ScrollView>
 
       {/* Modal for Create Chore */}
