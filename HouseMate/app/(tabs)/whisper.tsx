@@ -81,13 +81,15 @@ const Whisper = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 40,
+    marginTop: 20,
     backgroundColor: '#f5f5f5',
+    
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 20,
+    fontFamily: "Montserrat-Bold",
   },
   userItem: {
     paddingVertical: 15,
