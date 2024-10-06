@@ -8,19 +8,19 @@ import {
   Platform,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
-import { useUser } from "../../context/userContext";
+import { useUser } from "../context/userContext";
 import { useFocusEffect } from "@react-navigation/native";
 import { signInWithEmailAndPassword, User } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+import { auth } from "../firebaseConfig";
 
-export default function Login() {
+const LoginScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState<User | null>(null);
   const { initUser } = useUser();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(currentUser => {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       if (currentUser) {
         setUser(currentUser);
       }
@@ -48,8 +48,8 @@ export default function Login() {
       .then((userCredential) => {
         const user = userCredential.user;
         initUser(user.uid);
-        console.log("Login successful for user:", user.email); // Log successful login
-        alert(user.email + "succesfully logged in")
+
+        navigation.navigate("Main");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -89,7 +89,7 @@ export default function Login() {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -161,3 +161,5 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 });
+
+export default LoginScreen;
