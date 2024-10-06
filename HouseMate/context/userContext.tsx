@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 
+
 interface UserContextType {
   UID: string | null;
   username: string | null;
