@@ -145,6 +145,7 @@ export default function Chorelists() {
           )}
         </View>
       </ScrollView>
+
     </View>
   );
 }

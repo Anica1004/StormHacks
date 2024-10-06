@@ -49,6 +49,7 @@ export default function Login() {
         const user = userCredential.user;
         initUser(user.uid);
         console.log("Login successful for user:", user.email); // Log successful login
+        alert(user.email + "succesfully logged in")
       })
       .catch((error) => {
         const errorCode = error.code;

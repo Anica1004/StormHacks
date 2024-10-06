@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
-
+import { useHouse } from './householdContext';
 
 interface UserContextType {
   UID: string | null;
@@ -29,6 +29,7 @@ interface UserContextProviderType extends UserContextType {
 const UserContext = createContext<UserContextProviderType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const {initHouse} = useHouse();
   const [user, setUser] = useState<UserContextType>({
     UID: null,
     username: null,
@@ -72,6 +73,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         choreHistory: userData.choreHistory || [], // Ensure this is an array
         host: userData.host || false,
       }));
+      console.log(user.houseID);
+      initHouse(user.houseID);
     } catch (e) {
       console.error("Error initializing user: ", e);
     }

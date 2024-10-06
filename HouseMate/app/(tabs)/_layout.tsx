@@ -32,11 +32,38 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="noHouseAssigned"
+        options={{
+          title: 'noHouseAssigned',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="makeHousehold"
+        options={{
+          title: 'makeHousehold',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="mychores"
+        options={{
+          title: 'mychores',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+          ),
+        }}
+      />
 
       <Tabs.Screen
-        name="explore"
+        name="houseLandingPage"
         options={{
-          title: 'Explore',
+          title: 'houseLandingPage',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
           ),
