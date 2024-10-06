@@ -17,7 +17,7 @@ const LoginScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState<User | null>(null);
-  const { initUser } = useUser();
+  const { initUser} = useUser();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -48,8 +48,7 @@ const LoginScreen = ({ navigation }: any) => {
       .then((userCredential) => {
         const user = userCredential.user;
         initUser(user.uid);
-
-        navigation.navigate("Main");
+        navigation.navigate("assignHouse");
       })
       .catch((error) => {
         const errorCode = error.code;

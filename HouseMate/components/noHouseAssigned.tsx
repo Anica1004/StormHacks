@@ -1,75 +1,123 @@
-import React from 'react';
-import { StyleSheet, Image, Platform, Button, SafeAreaView, Text, Alert, View, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Image, SafeAreaView, Text, Alert, TextInput, TouchableOpacity } from 'react-native';
+
+const noHouseAssigned = ({ navigation }: any) => {
+  const [inviteCode, setInviteCode] = useState('');
+
+  const handleConfirmInviteCode = () => {
+    if (inviteCode.trim() === '') {
+      Alert.alert('Error', 'Please enter an invite code!');
+    } else {
+      Alert.alert('Success', `Invite code confirmed: ${inviteCode}`);
+
+      navigation.navigate("Main");
+
+
+    }
 
 
 
-export default function noHouseAssigned() {
+  };
 
+  // Function to handle creating a new household
+  const handleCreateHousehold = () => {
+    Alert.alert('Success', 'New household created!');
+    // Logic to create new household
+  };
 
+  return (
+    <SafeAreaView style={styles.safeArea}>
+      <Text style={styles.title}>Hello</Text>
 
-return(
-    <SafeAreaView style={[styles.safeArea]}>
+      <Image 
+        source={{ uri: "https://res.cloudinary.com/du40sblw6/image/upload/v1721157256/samples/food/dessert.jpg" }}
+        style={styles.landingImage}
+      />
 
-        <Text style={styles.title}>
-            Hello Name!
-        </Text>
+      <TextInput
+        style={styles.inviteCodeBox}
+        placeholder="Enter Invite Code"
+        placeholderTextColor="#c4c4c4"
+        value={inviteCode}
+        onChangeText={setInviteCode}
+      />
 
-        <Image source= {{uri : "https://res.cloudinary.com/du40sblw6/image/upload/v1721157256/samples/food/dessert.jpg"}}style={[styles.landingImage]}></Image>
+      {/* Button to confirm invite code */}
+      <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmInviteCode}>
+        <Text style={styles.buttonText}>Confirm Invite Code</Text>
+      </TouchableOpacity>
 
-        <TextInput style = {styles.inviteCodeBox}>
-            Invite Code
-        </TextInput>
-        <TouchableOpacity style={styles.createHouse}>
-            <Text>Make new household</Text>
-        </TouchableOpacity>    
+      {/* Button to create a new household */}
+      <TouchableOpacity style={styles.createHouseButton} onPress={handleCreateHousehold}>
+        <Text style={styles.buttonText}>Create New Household</Text>
+      </TouchableOpacity>    
     </SafeAreaView>
-); 
+  );
 }
 
 const styles = StyleSheet.create({
-    safeArea: {
-      flex: 1,
-      justifyContent: 'center', // Center vertically
-      alignItems: 'center',     // Center horizontally
-    },
-    title: {
-      textAlign: 'center',
-      marginVertical: 8,
-      color: "white",
-      marginTop: 30,
-      fontSize: 36,
-    }, 
-    createHouse: {
-      backgroundColor: '#67A21A', 
-      color: 'white',
-      padding: 10, 
-      textAlign: 'center',
-      display: 'flex', // display should be 'flex' in React Native
-      fontSize: 16, // font size without quotes
-      borderRadius: 10,
-      margin: 10
-    },
-    landingImage: {
-        width: 300, // Set the width of the image
-        height: 200, // Set the height of the image
-        borderRadius: 10, 
-        marginBottom: 16, // space between the image and the title text
-        alignContent: 'center'
-    },
-    inviteCodeBox: {
-        color: 'white',
-        borderColor: "#67A21A", // Sets the color of the border
-        borderRadius: 10, // Rounds the corners of the box
-        borderWidth: 2, // Adds a visible border with a width of 2
-        padding: 10, // Adds padding inside the text input
-        width: 250, // Adjust the width as needed
-        marginVertical: 10, // Adds vertical spacing
-    },
-    
-    button: {
-        backgroundColor:"#67A21A",
-    }
+  safeArea: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f2f2f2', // Soft background color
+    paddingHorizontal: 20, // Padding for the whole view
+  },
+  title: {
+    textAlign: 'center',
+    color: '#333',
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginVertical: 20,
+  },
+  landingImage: {
+    width: 280,
+    height: 180,
+    borderRadius: 15,
+    marginBottom: 30,
+    resizeMode: 'cover',
+  },
+  inviteCodeBox: {
+    width: '100%',
+    padding: 15,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#67A21A',
+    backgroundColor: '#fff', // Background for text input
+    marginBottom: 15,
+    fontSize: 16,
+    textAlign: 'center',
+    color: '#333',
+  },
+  confirmButton: {
+    width: '100%',
+    paddingVertical: 15,
+    borderRadius: 10,
+    backgroundColor: '#2196F3',
+    alignItems: 'center',
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 3, // Shadow effect for Android
+  },
+  createHouseButton: {
+    width: '100%',
+    paddingVertical: 15,
+    borderRadius: 10,
+    backgroundColor: '#67A21A',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});
 
-    
-  });
-  
+export default noHouseAssigned; 
+
