@@ -41,7 +41,7 @@ export default function Chorelists() {
     status
 } = useChore(); 
 
-const { houseID, username } = useUser();
+const { houseID, username, addChore } = useUser();
 const [chores, setChores] = useState<ChoreData[]>([]);
 
 useEffect(() => {
@@ -197,6 +197,10 @@ useEffect(() => {
           status: "Incomplete", // Change this to the new frequency you want
           person: username, 
         });
+
+         // Get the addChore function from context
+        addChore(choreID);
+
   
         console.log(`Chore with ID ${choreID} updated successfully.`);
         
