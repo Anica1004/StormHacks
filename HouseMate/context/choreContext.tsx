@@ -104,7 +104,7 @@ export const ChoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setChore(prevChore => ({
       ...prevChore,
       frequency
-    }));
+    }))
     if (chore.choreID) {
       updateDB(chore.choreID, { frequency: frequency });
     }

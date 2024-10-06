@@ -13,7 +13,7 @@ import CreateChore from './createChore'; // Make sure the path is correct
 
 
 import { useChore } from "../../context/choreContext"
-import { doc, getDocs, collection, getDoc } from 'firebase/firestore';
+import { doc, getDocs, collection, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig';
 import { useUser } from "../../context/userContext"; 
 import { signInWithEmailAndPassword, User } from "firebase/auth";
@@ -41,7 +41,7 @@ export default function Chorelists() {
     status
 } = useChore(); 
 
-const { houseID } = useUser();
+const { houseID, username } = useUser();
 const [chores, setChores] = useState<ChoreData[]>([]);
 
 useEffect(() => {
@@ -183,10 +183,34 @@ useEffect(() => {
     }
   };
 
-  const handleRegister = (choreID: string) => {
-    // Your register logic here, possibly using choreID to identify which chore to register for
-    console.log(`Registering for chore ID: ${choreID}`);
+  const handleRegister = async (choreID: string) => {
+    try {
+      // Step 1: Fetch the specific chore document using the choreID
+      const choreDocRef = doc(db, `households/${houseID}/chores`, choreID);
+      const choreDoc = await getDoc(choreDocRef);
+  
+      if (choreDoc.exists()) {
+        const choreData = choreDoc.data();
+        
+        // Step 2: Update the frequency of the chore
+        await updateDoc(choreDocRef, {
+          status: "Incomplete", // Change this to the new frequency you want
+          person: username, 
+        });
+  
+        console.log(`Chore with ID ${choreID} updated successfully.`);
+        
+        // Step 3: Update the state (optional: re-fetch chore data or update locally)
+        fetchChoreData(); // Call fetch function again to refresh the list (or manually update state)
+  
+      } else {
+        console.log("No such chore found!");
+      }
+    } catch (error) {
+      console.error("Error updating chore frequency: ", error);
+    }
   };
+  
 
   const openModal = () => {
     setModalVisible(true);
