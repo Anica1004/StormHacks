@@ -13,7 +13,6 @@ import { UserProvider } from "../context/userContext";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { ChoreProvider } from "@/context/choreContext";
 import { HouseProvider } from "@/context/householdContext";
-import FloatingActionButton from './(tabs)/fab';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -50,8 +49,6 @@ export default function RootLayout() {
                   <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                   <Stack.Screen name="+not-found" />
                 </Stack>
-                <FloatingActionButton/>
-
               </ThemeProvider>
             </ChoreProvider>
           </UserProvider>
