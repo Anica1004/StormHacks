@@ -17,13 +17,13 @@ const FloatingActionButton = () => {
       )}
       {isOpen && (
         <View style={styles.menu}>
-          <TouchableOpacity style={styles.menuItem}>
-            <Text style={styles.menuText}>Add a chore</Text>
+          <TouchableOpacity style={styles.menuButton}>
+            <Text style={styles.menuText}>Add a Chore</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuButton}>
             <Text style={styles.menuText}>Whisper</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuButton}>
             <Text style={styles.menuText}>Announcement</Text>
           </TouchableOpacity>
         </View>
@@ -38,7 +38,7 @@ const FloatingActionButton = () => {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 70,
     right: 20,
     alignItems: 'center',
   },
@@ -54,19 +54,21 @@ const styles = StyleSheet.create({
   menu: {
     position: 'absolute',
     bottom: 80,
-    right: 10,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 10,
-    elevation: 5,
+    right: 0,
+    alignItems: 'flex-end', // Aligns the menu buttons to the right, next to the FAB
   },
-  menuItem: {
+  menuButton: {
+    backgroundColor: 'green',
+    borderRadius: 30,
     paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 30, // Increases the width of the button
+    marginBottom: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   menuText: {
+    color: 'white',
     fontSize: 16,
-    color: 'green',
   },
 });
 
