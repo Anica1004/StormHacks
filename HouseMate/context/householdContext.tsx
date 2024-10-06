@@ -42,6 +42,7 @@ export const HouseProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const initHouse = async (hid: string) => {
     try {
+      console.log(hid);
       const docRef = doc(db, "households", hid);
       const docSnap = await getDoc(docRef);
 

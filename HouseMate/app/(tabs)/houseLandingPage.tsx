@@ -2,17 +2,17 @@ import React from 'react';
 import { StyleSheet, Image, Platform, SafeAreaView, Text, Alert, View, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 
 
-//import {useHouse} from "../../context/householdContext";
+import {useHouse} from "../../context/householdContext";
 
 
 export default function houseLandingPage() {
-    //const {housename} = useHouse();
+    const {housename} = useHouse();
 
 return(
     <SafeAreaView style={[styles.safeArea]}>
 
         <Text style={styles.title}>
-            Welcome back to {"housename"}!
+            Welcome back to {housename}!
         </Text>
 
         <Image source={require('../../assets/images/icons8-house-200.png')} />
