@@ -5,9 +5,11 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { MaterialIcons } from '@expo/vector-icons';
+import CreateChore from './createChore'; // Make sure the path is correct
 
 interface ChoreData {
   choreID: string; 
@@ -77,9 +79,9 @@ export default function Chorelists() {
       status: "Complete",
     },
   ];
-  
 
   const [chores, setChores] = useState<ChoreData[]>([]);
+  const [isModalVisible, setModalVisible] = useState(false); // State for modal visibility
 
   useEffect(() => {
     const sortedChores = sortChoresByStatus(mockChores);
@@ -124,32 +126,50 @@ export default function Chorelists() {
     console.log(`Registering for chore ID: ${choreID}`);
   };
 
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
   return (
     <View style={styles.outerContainer}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <ThemedText style = {styles.title}>Chores of the Week</ThemedText>
-
-
+        <ThemedText style={styles.title}>Chores of the Week</ThemedText>
 
         <View style={styles.container}>
-      
           {chores.length > 0 ? (
             chores.map((chore) => {
               const statusStyle = getStatusStyle(chore.status);
               return (
-                <View key={chore.choreID} style={[styles.choreCard, { backgroundColor: statusStyle.backgroundColor }]}>
+                <View
+                  key={chore.choreID}
+                  style={[styles.choreCard, { backgroundColor: statusStyle.backgroundColor }]}
+                >
                   <View style={styles.rowContainer}>
                     <View style={styles.iconContainer}>
                       {getStatusIcon(chore.status)}
                     </View>
                     <View style={styles.textContainer}>
                       <View style={styles.statusContainer}>
-                        <ThemedText style={{ color: statusStyle.color, fontFamily: "Montserrat-Black", fontSize: 19 }}>
+                        <ThemedText
+                          style={{
+                            color: statusStyle.color,
+                            fontFamily: "Montserrat-Black",
+                            fontSize: 19,
+                          }}
+                        >
                           {chore.status}
                         </ThemedText>
                       </View>
-                      <ThemedText style={{ fontFamily: "Montserrat-Bold", fontSize: 17 }}>{chore.name}</ThemedText>
-                      <ThemedText style={{color: "#878787", fontWeight: 0}}>{chore.person || ""}</ThemedText>
+                      <ThemedText style={{ fontFamily: "Montserrat-Bold", fontSize: 17 }}>
+                        {chore.name}
+                      </ThemedText>
+                      <ThemedText style={{ color: "#878787", fontWeight: 0 }}>
+                        {chore.person || ""}
+                      </ThemedText>
                     </View>
                   </View>
                   {chore.status === "Unclaimed" && (
@@ -169,8 +189,28 @@ export default function Chorelists() {
             <Text style={styles.noChoresText}>No chores available</Text>
           )}
         </View>
+        
+        <TouchableOpacity style={styles.addButton} onPress={openModal}>
+          <Text style={styles.addButtonText}>Add Chore</Text>
+        </TouchableOpacity>
       </ScrollView>
 
+      {/* Modal for Create Chore */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
+              <Text style={styles.closeButtonText}>X</Text>
+            </TouchableOpacity>
+            <CreateChore />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -191,8 +231,6 @@ const styles = StyleSheet.create({
     paddingTop: 80, 
     alignItems: "center",
     textAlign: "center",
-
-
   }, 
   container: {
     flex: 1,
@@ -212,12 +250,12 @@ const styles = StyleSheet.create({
     width: "90%",
     justifyContent: "center",
     alignItems: "flex-start",
-    position: "relative", // Set position to relative for absolute positioning of the button
+    position: "relative",
   },
   rowContainer: {
     flexDirection: "row", 
     alignItems: "center", 
-    justifyContent: "space-between", // Align items to use space between
+    justifyContent: "space-between", 
   },
   iconContainer: {
     marginRight: 20, 
@@ -251,4 +289,36 @@ const styles = StyleSheet.create({
     fontSize: 14, 
     textAlign: "center",
   },
+  addButton: {
+    backgroundColor: "#6200EE", // Customize your button color
+    padding: 10,
+    borderRadius: 5,
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+  addButtonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+  },
+  modalContent: {
+    width: "80%",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 20,
+    alignItems: "center",
+  },
+  closeButton: {
+    alignSelf: "flex-end",
+  },
+  closeButtonText: {
+    fontSize: 18,
+    color: "#6200EE", // Customize your close button color
+  },
 });
+
