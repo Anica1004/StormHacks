@@ -106,15 +106,15 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const setHouseID = (houseID: string) => {
-    setUser(prevUser => ({
-      ...prevUser,
-      houseID
-    }));
-    if (user.UID) {
-      updateDB(user.UID, { houseID });
-    }
-  };
+  // const setHouseID = (houseID: string) => {
+  //   setUser(prevUser => ({
+  //     ...prevUser,
+  //     houseID
+  //   }));
+  //   if (user.UID) {
+  //     updateDB(user.UID, { houseID });
+  //   }
+  // };
 
   const setProfilePic = (profilePic: string) => {
     setUser(prevUser => ({
