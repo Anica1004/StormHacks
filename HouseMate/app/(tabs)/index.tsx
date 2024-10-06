@@ -40,7 +40,7 @@ export default function HouseLandingPage() {
             showsVerticalScrollIndicator={false} // Optional: hides the vertical scrollbar
         >
             <Text style={styles.title}>
-                Welcome back to {housename}!
+                Welcome to StormHacks House!
             </Text>
 
             <LottieView

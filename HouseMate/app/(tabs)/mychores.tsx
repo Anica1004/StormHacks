@@ -44,7 +44,8 @@ export default function MyChores() {
           console.log(`No such document at ${path}`);
         }
       }
-      setChores(choreData);
+      // Sort chores by status before setting state
+      setChores(sortChoresByStatus(choreData));
     } catch (error) {
       console.error("Error fetching chore data:", error);
     }
@@ -59,7 +60,7 @@ export default function MyChores() {
   const sortChoresByStatus = (chores: ChoreData[]) => {
     return chores.sort((a, b) => {
       const statusOrder = { Unclaimed: 1, Incomplete: 2, Complete: 3 };
-      return statusOrder[a.status] - statusOrder[b.status];
+      return (statusOrder[a.status] || 0) - (statusOrder[b.status] || 0);
     });
   };
 
@@ -103,13 +104,11 @@ export default function MyChores() {
       const updatedChores = chores.map((chore) =>
         chore.choreID === choreID ? { ...chore, status: "Complete" } : chore
       );
-      setChores(updatedChores);
+      setChores(sortChoresByStatus(updatedChores)); // Re-sort after update
     } catch (error) {
       console.error("Error updating chore status:", error);
     }
   };
-
-
 
   const handleRegister = (choreID: string) => {
     console.log(`Registering for chore ID: ${choreID}`);
